@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1566750219 source:e:\c and c++\programming on c\projects\12_8_average_sum\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1566750219 source:e:\c_c++_c#\programming on c\projects\12_8_average_sum\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
