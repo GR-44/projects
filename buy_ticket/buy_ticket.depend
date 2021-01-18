@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1610967338 source:c:\c\programming on c\projects\buy_ticket\main.c
+	<stdio.h>
+	<stdlib.h>
+

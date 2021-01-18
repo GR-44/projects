@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1608540005 source:c:\c\programming on c\recipes c\sorting_block\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"sort.h"
+
+1608815853 c:\c\programming on c\recipes c\sorting_block\sort.h
+	<math.h>
+
