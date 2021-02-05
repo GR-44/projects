@@ -5,13 +5,13 @@
 
 typedef enum{false, true} bool;
 
-int int_pow(int number, int power);                 // возведение в степень целых положительных чисел, возвращает INT
-int numpos(int number);                             // определяет количество разрядов в числе.
-void block_sort(int *arr, int n);                   // (блочная)поразрядная сортировка целых положительных чисел в пределах INT_MAX
-void block_sort_minus(int *arr, int n);             // (блочная)поразрядная сортировка целых положительных и отрицательных чисел в пределах INT_MAX
+int int_pow(int number, int power);                 // personal pow() function, return INT value
+int numpos(int number);                             // number position quantity
+void block_sort(int *arr, int n);                   // (block)digitwise sort positive numbers in range of INT_MAX
+void block_sort_minus(int *arr, int n);             // (block)digitwise sort positive and negative numbers in range of INT_MAX
 void bubble_sort(int *arr, int n);
 
-int numpos(int number)                              // определяет количество разрядов в числе.
+int numpos(int number)                              // number position quantity
 {
     int count = 0;
     if(number < 0)
@@ -28,7 +28,7 @@ int numpos(int number)                              // определяет количество раз
 
     return count;
 }
-void block_sort(int *arr, int n)                    // (блочная)поразрядная сортировка целых положительных чисел в пределах INT_MAX
+void block_sort(int *arr, int n)                    // (block)digitwise sort positive numbers in range of INT_MAX
 {
     int i, j;
 
@@ -69,7 +69,7 @@ void block_sort(int *arr, int n)                    // (блочная)поразрядная сорт
         num = 0;
         for(i = 0; i < n; i++)
         {
-            sum = int_pow(10, step);                    // sum = pow(10, 2) - программа выдает ошибку, sum = 99!!!!!!!!!
+            sum = int_pow(10, step);                    // sum = pow(10, 2) - function error, sum = 99!!!!!!!!!
             index = arr[i]%sum / int_pow(10, div_step);
             ss[index][j++] = arr[i];
         }
@@ -95,7 +95,7 @@ void block_sort(int *arr, int n)                    // (блочная)поразрядная сорт
     free(ss);
 }
 
-void block_sort_minus(int *arr, int n)                       //  (блочная)поразрядная сортировка целых положительных и отрицательных чисел в пределах INT_MAX
+void block_sort_minus(int *arr, int n)              // (block)digitwise sort positive and negative numbers in range of INT_MAX
 {
     int i, j = 0, k = 0;
     int pos = 0;
@@ -168,7 +168,7 @@ void block_sort_minus(int *arr, int n)                       //  (блочная)поразр
         num = 0;
         for(i = 0; i < neg; i++)
         {
-            sum = int_pow(10, step);                                                //sum = pow(10, step) - программа выдает ошибку, sum = 99!!!!!!!!!
+            sum = int_pow(10, step);                                                //sum = pow(10, step) - function error, sum = 99!!!!!!!!!
             index = abs(negative[i])%sum / int_pow(10, div_step);
             ss[index][j++] = negative[i];
         }
@@ -229,7 +229,7 @@ void block_sort_minus(int *arr, int n)                       //  (блочная)поразр
         num = 0;
         for(i = 0; i < pos; i++)
         {
-            sum = int_pow(10, step);                     // sum = pow(10, step) - программа выдает ошибку, sum = 99!!!!!!!!!
+            sum = int_pow(10, step);                     // sum = pow(10, step) - function error, sum = 99!!!!!!!!!
             index = positive[i]%sum / int_pow(10, div_step);
             ss[index][j++] = positive[i];
         }

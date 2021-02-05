@@ -1,4 +1,4 @@
-/*  Реализация блочной(поразрядной) сортировки в пределах INT_MAX  */
+/*  realization block(digitwise) sort in range of INT_MAX  */
 
 
 #include<stdio.h>
@@ -19,7 +19,7 @@ int main()
 	puts("Before sorting");
 	for(i = 0; i < N; i++)
 	{
-	    arr[i] = rand() % 90 - 50;              // случайные отрицательные и положительные числа
+	    arr[i] = rand() % 90 - 50;              // random positive and nagative numbers
 		printf("%d ", arr[i]);
 	}
 	puts("");
