@@ -5,11 +5,11 @@ int main()
 {
 	//setlocale(LC_ALL, "Rus");
 	puts("*** Simpletron welcomes you! ***");
-	puts("*** Please enter your program, one command at a time. ***");
-	puts("*** I will display the current address and the question mark (?) as a hint ***");
-	puts("*** The command you entered will be placed at the specified address. ***");
-	puts("*** To stop entering the program, enter the number -99999. ***");
-	puts("===============================================================================================");
+		 "*** Please enter your program, one command at a time. ***\n"
+		 "*** I will display the current address and the question mark (?) as a hint ***\n"
+		 "*** The command you entered will be placed at the specified address. ***\n"
+		 "*** To stop entering the program, enter the number -99999. ***\n"
+		 "===============================================================================================");
 	printf("Example: the program reads two numbers entered from the keyboard, calculates their sum and outputs it \n"
         "00? +1007 \n"
         "01? +1008 \n"
@@ -50,12 +50,6 @@ int main()
 		scanf("%d", &num);
 	}
 	puts("");
-	int i;
-	/*for(i = 0; i < counter; i++)
-	{
-		printf("%d  %d\n", i, memory[i]);
-	}
-	printf("counter = %d\n", counter);*/
 	puts("*** Program download finished ***");
 	puts("*** Start to run program ***");
 
