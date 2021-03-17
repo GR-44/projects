@@ -15,81 +15,77 @@ struct notebook
 	char record[5000];
 };
 
+void encrypt(char *text);
+void decrypt(char *text);
+int pass();
+
 void listFile(FILE *readPtr)
 {
-	FILE *writePtr; // указатель файла notes.txt
 	struct notebook note = {0, 0, 0, 0, ""};
 
-	if((writePtr = fopen("notes.txt", "w")) == NULL)
-	{
-		puts("File could not be opened.");
-	}
-	else
-	{
-		rewind(readPtr); // возвращает указатель файла на начало
-		//fprintf(writePtr, "%-s%-12s  %-15s\n", "Номер заметки", "DD/MM/YYYY", "Заметка");
+	rewind(readPtr); // возвращает указатель файла на начало
 
-		puts("");
-		puts("List of notes:");
+	puts("");
+	system("cls");
+	puts("List of notes:");
 
-		while(!feof(readPtr))
+	while(!feof(readPtr))
+	{
+		fread(&note, sizeof(struct notebook), 1, readPtr);
+
+		if(note.number != 0)
 		{
-			fread(&note, sizeof(struct notebook), 1, readPtr);
+			printf("%-4d   %02d.%02d.%04d\t", note.number, note.day, note.month, note.year);
+			int i;
+			char code[5000];
+			decrypt(note.record);
+			strncpy(code, note.record, 25);
 
-			if(note.number != 0)
+			for(i = 0; i <= 25; i++)
 			{
-				printf("%-4d   %02d.%02d.%04d\t", note.number, note.day, note.month, note.year);
-				int i;
-				for(i = 0; i <= 25; i++)
-				{
-					printf("%c", note.record[i]);
-				}
-				putchar('\n');
-
+				printf("%c", code[i]);
 			}
-		}
+			putchar('\n');
 
-		fclose(writePtr);
+		}
 	}
+	puts("");
+
 }
 
 void openFile(FILE *fPtr)
 {
-	FILE *writePtr; // указатель файла notes.txt
-
 	int note_num;
 
 	struct notebook note = {0, 0, 0, 0, ""};
 
-	if((writePtr = fopen("notes.txt", "w")) == NULL)
+	printf("%s", "Enter note number: ");
+	scanf("%d", &note_num);
+
+	fseek(fPtr, (note_num - 1) * sizeof(struct notebook), SEEK_SET);
+
+	fread(&note, sizeof(struct notebook), 1, fPtr);
+
+	if(note.number == 0)
 	{
-		puts("File could not be opened.");
+		printf("Note #%d has no information.\n", note_num);
 	}
 	else
 	{
-		printf("%s", "Enter note number: ");
-		scanf("%d", &note_num);
+		puts("");
+		system("cls");
+		puts("Note:");
 
-		fseek(fPtr, (note_num - 1) * sizeof(struct notebook), SEEK_SET);
+		char code[5000];
+		int i;
+		decrypt(note.record);
+		strcpy(code, note.record);
 
-		fread(&note, sizeof(struct notebook), 1, fPtr);
-
-		if(note.number == 0)
+		if(note.number != 0)
 		{
-			printf("Note #%d has no information.\n", note_num);
+			printf("%s\n", code);
 		}
-		else
-		{
-			puts("");
-			puts("Note:");
 
-			if(note.number != 0)
-			{
-				printf("%s\n", note.record);
-			}
-
-			fclose(writePtr);
-		}
 	}
 }
 
@@ -116,6 +112,7 @@ void deleteRecord(FILE *fPtr)
 		fseek(fPtr, (note_num - 1) * sizeof(struct notebook), SEEK_SET);
 		fwrite(&blank_note, sizeof(struct notebook), 1, fPtr);
 	}
+	system("cls");
 }
 
 void newRecord(FILE *fPtr)
@@ -136,13 +133,18 @@ void newRecord(FILE *fPtr)
 	}
 	else
 	{
-		printf("%s", "Enter the date in format(dd mm yyyy): ");
-		scanf("%d%d%d", &note.day, &note.month, &note.year);
+		int i;
+		char code[5000];
+
+		printf("%s", "Enter the date (dd/mm/yyyy): ");
+		scanf("%d%*c%d%*c%d", &note.day, &note.month, &note.year);
 
 		printf("%s\n", "Note:");
 		getchar();
-		gets(note.record);
+		fgets(code, 5000, stdin);
+		encrypt(code);
 
+		strcpy(note.record, code);
 		note.number = note_num;
 
 		fseek(fPtr, (note.number - 1) * sizeof(struct notebook), SEEK_SET);
@@ -161,17 +163,19 @@ int enterChoice(void)
 		"4 - Delete note.\n"
 		"5 - Exit.\n? ");
 
-	while(scanf("%d", &menuChoice) == 0 || (menuChoice < 1 || menuChoice > 5))
-    {
-        printf("Wrong input!!!  Enter an integer from 1 to 5: ");
-        fflush(stdin);
-    }
-
+	while (scanf("%d", &menuChoice) == 0 || (menuChoice < 1 || menuChoice > 5))
+	{
+		puts("Wrong input! Enter an integer 1 - 5.");
+		printf("%s", "Your choice: ");
+		getchar();
+	}
 	return menuChoice;
 }
 
-int check(char password[])
+int check(char *password)
 {
+	char check_pass[20];
+	(strlen(password) <= 20) ? strcpy(check_pass, password) : strncpy(check_pass, password, 20);
     char pass[20] = "pass";
     if(strcmp(pass, password) == 0)
     {
@@ -181,50 +185,118 @@ int check(char password[])
     return 0;
 }
 
-void pass()
+int pass()
 {
     char password[20];
 	char c;
-	int i;
+	int i = 0;
 	int attempt = 3;
+	puts("\n\n\n\n");
+	printf("%30s", "Enter password: ");
+	while (1)
+	{
+		c = getch();
+		if (c == 13)
+			break;
 
+		if (c == 8 && i != 0)
+			--i;
+
+		if (c != 13 && c != 8)
+		{
+			password[i] = c;
+			++i;
+		}
+	}
+
+	password[i] = '\0';
 	int flag = 1;
 
 	while(flag)
     {
-        //puts("");
-        system("cls");
-        puts("\n\n\n\n");
-        printf("%10s%d%19s", "Attempt: ", attempt, "Enter password: ");
-            //scanf("%s", password);
-        for (i = 0; ; i++)
-        {
-            c = getch();
-            if(c == 13 || c == 10)
-            {
-                break;
-            }
-            password[i] = c;
-                //putch('');
-        }
-
-        password[i] = '\0';
-
         if(check(password))
         {
             flag = 0;
         }
         else
         {
+			i = 0;
+
             --attempt;
             if(attempt == 0)
             {
-                _Exit(0);
+                return 0;
             }
-        }
 
+            puts("");
+            printf("%10s%d%19s", "Attempt: ", attempt, "Enter password: ");
+            while(1)
+            {
+                c = getch();
+                if(c == 13)
+                    break;
+
+				if(c == 8 && i != 0)
+					--i;
+
+				if (c != 13 && c != 8)
+				{
+					password[i] = c;
+					++i;
+				}
+            }
+
+            password[i] = '\0';
+        }
+    }
+
+	return 1;
+}
+
+void encrypt(char *text)
+{
+    while(*text)
+    {
+	 	*text = ((*text + 31) ^ 8742) - 17;
+        ++text;
     }
 }
 
+void decrypt(char *text)
+{
+    while(*text)
+	{
+		*text = ((*text + 17) ^ 8742) - 31;
+		++text;
+	}
+}
 
 #endif // NOTEBOOK_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
