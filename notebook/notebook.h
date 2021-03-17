@@ -23,7 +23,7 @@ void listFile(FILE *readPtr)
 {
 	struct notebook note = {0, 0, 0, 0, ""};
 
-	rewind(readPtr); // возвращает указатель файла на начало
+	rewind(readPtr); // return pointer to begin of file
 
 	puts("");
 	system("cls");

@@ -6,8 +6,8 @@
 
 int main(void)
 {
-	system("chcp 1251");        // текущая кодовая страница 1251
-  	system("cls");              // очистка консоли
+	system("chcp 1251");    // russion language   
+  	system("cls");              
 
 	if(!pass())
 	{
@@ -16,11 +16,11 @@ int main(void)
 
     puts("\n\n");
     puts("******************************************************************************************");
-    printf("%50s", "Access granted\n");
+    puts("================================ Access granted ==========================================");
     puts("******************************************************************************************");
     puts("\n\n");
 
-	FILE *nf_ptr; // указатель файла credit.dat
+	FILE *nf_ptr; 
 	int choice;
 
 	if((nf_ptr = fopen("notes.dat", "rb+")) == NULL)
