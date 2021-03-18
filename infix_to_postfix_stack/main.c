@@ -14,13 +14,10 @@ void convert_to_postfix(char infix[], char postfix[]);
 int precedence(char operator1, char operator2);
 void push(StackNode_ptr *top_ptr, char value);
 char pop(StackNode_ptr *top_ptr);
-//char stack_top(StackNode_ptr top_ptr);
-//int is_empty(StackNode_ptr top_ptr);
 void print_stack(StackNode_ptr top_ptr);
 
 int main()
 {
-    //StackNode_ptr stack_ptr;
     char infix[60];
     char postfix[60];
 
@@ -53,11 +50,6 @@ void print_stack(StackNode_ptr top_ptr)
     }
 }
 
-/*int is_empty(StackNode_ptr top_ptr)
-{
-    return top_ptr == NULL;
-}*/
-
 void push(StackNode_ptr *top_ptr, char value)
 {
     StackNode_ptr new_ptr;
@@ -87,11 +79,6 @@ char pop(StackNode_ptr *top_ptr)
 
     return pop_value;
 }
-
-/*char stack_top(StackNode_ptr top_ptr)
-{
-    int pop_value;
-}*/
 
 int precedence(char operator1, char operator2)
 {
@@ -176,7 +163,7 @@ void convert_to_postfix(char infix[], char postfix[])
         }
     }
 
-    while(stack_ptr != NULL)// && stack_ptr->data != '(')
+    while(stack_ptr != NULL)
     {
         postfix[j] = stack_ptr->data;
 
